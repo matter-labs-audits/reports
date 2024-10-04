@@ -16,6 +16,6 @@ What We Offer:
 
 ## Table Of Audits
 
-|  Project | Date  |  Description |  Report |
-|---|---|---|---|
-| [Nodle](https://docs.nodle.com/nodle-on-zksync-era) | September 2024 | Review of smart contracts | [Report](https://github.com/matter-labs-audits/reports/blob/main/Nodle/Nodle%20Security%20Review%20Final%20Report.pdf) |
+|  Project | Date  |  Description | Language | Report                                                                                                                         |
+|---|---|---|---|--------------------------------------------------------------------------------------------------------------------------------|
+| [Nodle](https://www.nodle.com/) | September 2024 | Review of smart contracts | Solidity | [Report](https://github.com/matter-labs-audits/reports/blob/main/reports/Nodle/Nodle%20Security%20Review%20Final%20Report.pdf) |
