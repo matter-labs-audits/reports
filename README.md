@@ -1,6 +1,6 @@
 # Audits from Matter Labs
 
-Welcome to our repository of Matter Labs Audit Reports! 
+Welcome to the repository of Matter Labs Audit Reports! 
 
 Our mission is to support the community and ecosystem by providing thorough and transparent security audits. 
 We aim to enhance the sanity, safety, and stability of decentralized applications built on zkSync.
