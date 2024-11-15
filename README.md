@@ -11,7 +11,7 @@ To contribute to a stronger, more secure L2 ecosystem by identifying vulnerabili
 Our reports are designed to provide valuable insights for developers, teams, and users looking to build or engage with secure smart contracts for zkSync.
 
 What We Offer:
-- Free Audits: Free audits for key zkSync community and ecosystem projects.
+- Free Audits: Free audits for the distinguished ZKsync community and ecosystem projects.
 - Paid Audits: Comprehensive security audits for all other blockchain-related projects.
 
 ## Table Of Audits
@@ -19,3 +19,4 @@ What We Offer:
 |  Project | Date  |  Description | Language | Report                                                                                                                         |
 |---|---|---|---|--------------------------------------------------------------------------------------------------------------------------------|
 | [Nodle](https://www.nodle.com/) | September 2024 | Review of smart contracts | Solidity | [Report](https://github.com/matter-labs-audits/reports/blob/main/reports/Nodle/Nodle%20Security%20Review%20Final%20Report.pdf) |
+| [ZK Email](https://prove.email/) | November 2024 | Review of contracts and circuits | Solidity, Rust, Circom | [Report](https://github.com/matter-labs-audits/reports/blob/main/reports/zkemail/ZKEmail%20Security%20Review%20Report.pdf) |
