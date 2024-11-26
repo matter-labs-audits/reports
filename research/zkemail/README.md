@@ -123,7 +123,9 @@ What’s more essential for understanding the vulnerability identified is that t
 ```
 var num_bytes = msg_bytes+1;
 signal in[num_bytes];
+// -->
 in[0]<==255;
+// <--
 for (var i = 0; i < msg_bytes; i++) {
 	in[i+1] <== msg[i];
 }
@@ -142,7 +144,9 @@ for (var i = 0; i < num_bytes; i++) {
 	and[0][i] = AND();
 	and[0][i].a <== states[i][0];
 	and[0][i].b <== eq[0][i].out;
+        // -->
 	states[i+1][1] <== and[0][i].out;
+        // <--
 	state_changed[i].in[0] <== states[i+1][1];
 	eq[1][i] = IsEqual();
 	eq[1][i].in[0] <== in[i];
@@ -171,14 +175,18 @@ for (var i = 0; i < num_bytes; i++) {
 	states[i+1][1] <== and[0][i].out;
 	state_changed[i].in[0] <== states[i+1][1];
 	eq[1][i] = IsEqual();
+	// -->
 	eq[1][i].in[0] <== in[i];
 	eq[1][i].in[1] <== 97;
+	// <--
 	and[1][i] = AND();
 	and[1][i].a <== states[i][1];
 	and[1][i].b <== eq[1][i].out;
 	states[i+1][2] <== and[1][i].out;
 	state_changed[i].in[1] <== states[i+1][2];
+	// -->
 	states[i+1][0] <== 1 - state_changed[i].out;
+ 	// <--
 }
 
 ```
