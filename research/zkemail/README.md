@@ -48,15 +48,15 @@ Before diving into the issue, we would like to take a step back and discuss why 
 
 In our case, all this means is trusting that the email address specified in the `From` header is indeed the sender. Thus, extraction of the sender from a DKIM-signed email is a crucial step, with the parser being a root of trust in ZK Email. If the attacker manages to persuade the verifier that the DKIM-signed email is from a different email address controlled by another user, it undermines the security of ZK Email.
 
-We have identified that for at least two popular email services, `Outlook.com` and `Mail.ru`, it is possible to manipulate email addresses in the From header. This manipulation causes the `FromAddrRegex` circuit to output an email address that does not belong to the sender.
+We have identified that for at least two popular email services, `Outlook.com` and `Mail.ru`, it is possible to manipulate email addresses in the `From` header. This manipulation causes the `FromAddrRegex` circuit to output an email address that does not belong to the sender.
 
-For example, through `Outlook.com service`, it's possible to send an email from attacker@outlook.com with the following From header:
+For example, through `Outlook.com` service, it's possible to send an email from attacker@outlook.com with the following `From` header:
 
 ```
 From: "Some name <victim@any-domain>" < attacker@outlook.com>
 ```
 
-Note the space between `<` and the email address in `< attacker@outlook.com>`. While the actual sender is `attacker@outlook.com`, the `FromAddrRegex` circuit outputs `victim@any-domain`. The beauty of this bug is that any-domain can be literally any domain, not necessarily outlook.com that sent the message.
+Note the space between `<` and the email address in `< attacker@outlook.com>`. While the actual sender is `attacker@outlook.com`, the `FromAddrRegex` circuit outputs `victim@any-domain`. The beauty of this bug is that `any-domain` can be literally any domain, not necessarily `outlook.com` that sent the message.
 A fully functional malicious email can be crafted as follows:
 ```
 From: "John Doe <johndoe@gmail.com>" < attacker@outlook.com>
@@ -80,7 +80,7 @@ curl -vvv --ssl-reqd \
 
 But how is it possible that `Outlook.com`, one of the leading email servers, lets this malicious email slip through its defenses? It turns out that the email is not inherently malicious. For example, both `Outlook.com` and `Gmail.com` servers parse this email as coming from the `attacker@outlook.com address`. So, as long as they agree on how to parse it, nothing bad happens. However, since the circuits parse the email as coming from `johndoe@gmail.com` the issue arises.
 
-The ZK Email team mitigated the issue by changing how the email address is extracted. In particular, the circuit [reverses](https://github.com/zkemail/zk-regex/blob/7002a2179e076449b84e3e7e8ba94e88d0a2dc2f/packages/circom/circuits/common/email_addr_with_name_regex.circom#L13-L15) the From header, looks for the [first occurrence of angle brackets](https://github.com/zkemail/zk-regex/blob/7002a2179e076449b84e3e7e8ba94e88d0a2dc2f/packages/circom/circuits/common/reversed_bracket_regex.circom#L5), and extracts what is inside of them. Note, however, that the number of possible parser discrepancies is practically unlimited, especially given the variety of parsers and the fact that their code changes over time. Thus, it is crucial to have defense-in-depth strategies like timelocks for ZK Email actions.
+The ZK Email team mitigated the issue by changing how the email address is extracted. In particular, the circuit [reverses](https://github.com/zkemail/zk-regex/blob/7002a2179e076449b84e3e7e8ba94e88d0a2dc2f/packages/circom/circuits/common/email_addr_with_name_regex.circom#L13-L15) the `From` header, looks for the [first occurrence of angle brackets](https://github.com/zkemail/zk-regex/blob/7002a2179e076449b84e3e7e8ba94e88d0a2dc2f/packages/circom/circuits/common/reversed_bracket_regex.circom#L5), and extracts what is inside of them. Note, however, that the number of possible parser discrepancies is practically unlimited, especially given the variety of parsers and the fact that their code changes over time. Thus, it is crucial to have defense-in-depth strategies like timelocks for ZK Email actions.
 
 
 ## Enigmatic 255-decimal
@@ -213,7 +213,7 @@ The `EmailAuth` circuit is in charge of verifying DKIM-signature of the email an
 (\r\n|^)from:[^\r\n]+\r\n
 ```
 
-Given that the attacker can inject `\xff` character followed by the victim’s email address, the `EmailAuth` circuit can be tricked into extracting `victim@anydomain` email address from the `subject` header, thinking it comes `from` the from header.
+Given that the attacker can inject `\xff` character followed by the victim’s email address, the `EmailAuth` circuit can be tricked into extracting `victim@anydomain` email address from the `subject` header, thinking it comes from the `from` header.
 
 This ultimately results in an email spoofing attack, allowing the attacker to impersonate any email address by sending emails from `attacker@gmail.com` with the victim’s email address injected after the `\xff` character in the subject.
 
