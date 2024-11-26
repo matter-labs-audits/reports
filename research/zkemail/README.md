@@ -52,7 +52,7 @@ We have identified that for at least two popular email services, `Outlook.com` a
 
 For example, through `Outlook.com` service, it's possible to send an email from attacker@outlook.com with the following `From` header:
 
-```
+```email
 From: "Some name <victim@any-domain>" < attacker@outlook.com>
 ```
 
@@ -197,7 +197,7 @@ For a further deep dive into the ZK regex compiler, we highly recommend the [ZK 
 
 Now, coming back to the vulnerability. We’ve discovered that most email providers blissfully send invalid UTF-8 characters in the subject header of an email, including the `\xff` character.
 
-```text
+```email
 subject: \xfffrom: victim@anydomain
 ```
 
@@ -210,7 +210,6 @@ curl -vvv --ssl-reqd \
   --mail-from 'attacker@gmail.com' \
   --mail-rcpt 'relayer@domain'\
   --upload-file mail-255.txt
-
 ```
 
 The `EmailAuth` circuit is in charge of verifying DKIM-signature of the email and extracting the sender’s email address by parsing the `from` header using the sub-circuits `FromAddrRegex`, `FromAllRegex`, and `EmailAddrRegex`. The `FromAllRegex` circuit matches the `from` header in the email by using the following regular expression:
