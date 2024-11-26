@@ -21,3 +21,6 @@ What We Offer:
 | [Nodle](https://www.nodle.com/) | September 2024 | Review of smart contracts | Solidity | [Report](https://github.com/matter-labs-audits/reports/blob/main/reports/Nodle/Nodle%20Security%20Review%20Final%20Report.pdf) |
 | [ZK Email](https://prove.email/) | November 2024 | Review of contracts and circuits | Solidity, Rust, Circom | [Report](https://github.com/matter-labs-audits/reports/blob/main/reports/zkemail/ZKEmail%20Security%20Review%20Report.pdf) |
 | [Grandine](https://grandine.io/) | November 2024 | Review of the slashing mechanism | Rust | [Report](https://github.com/matter-labs-audits/reports/blob/main/reports/Grandine/Grandine%20Security%20Review.pdf) |
+
+## Research
+- [ZK Email: Unveiling Classic Attacks and Why Zero-Knowledge Proofs Alone Are Not a Panacea](https://github.com/matter-labs-audits/reports/blob/main/research/zkemail/README.md)
