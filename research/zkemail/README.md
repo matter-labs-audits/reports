@@ -116,7 +116,7 @@ The ZK Email relies on regular expressions prefixed with `(\r\n|^)header_name:` 
 
 When we compile a regular expression with the compiler, it generates a Circom circuit that embodies a Deterministic Finite Automaton (DFA) satisfying the regular expression. Any regular expression can be converted into an equivalent DFA. An input string matches the regular expression if it transitions the DFA to the accept state.
 
-Let’s have the `^a` regular expression as a toy example. When generating a circuit for the regular expression, the compiler makes a DFA with three states, with state `2` being the accepted state.
+Let’s have the `^a` regular expression as a toy example. When generating a circuit for [the regular expression](https://zkregex.com/min_dfa?regex=XmE=), the compiler makes a DFA with three states, with state `2` being the accepted state.
 
 What’s more essential for understanding the vulnerability identified is that the compiler injects `255` decimal as the first value to the `in` array before the user’s input. This one is called an “invalid” decimal, as conceived by the ZK regex compiler’s code, and shouldn’t interfere with the user’s input, indicating the beginning of the string.
 
@@ -135,8 +135,10 @@ Further, in the main loop, the circuit handles the transition between states of 
 for (var i = 0; i < num_bytes; i++) {
 	state_changed[i] = MultiOR(2);
 	eq[0][i] = IsEqual();
+	// -->
 	eq[0][i].in[0] <== in[i];
 	eq[0][i].in[1] <== 255;
+	// <--
 	and[0][i] = AND();
 	and[0][i].a <== states[i][0];
 	and[0][i].b <== eq[0][i].out;
